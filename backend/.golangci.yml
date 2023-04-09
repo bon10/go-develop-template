@@ -1,0 +1,67 @@
+run:
+  go: '1.20'
+  skip-dirs:
+    - ent/.*
+    - ent
+linters:
+  #disable-all: true
+  enable-all: true
+  #enable:
+  #  - gofumpt
+  disable:
+    # temporary disabled
+    - gomoddirectives # don't use replace in go.mod
+    # use gofumpt instead
+    - goimports
+    - gci
+    - gofmt
+    - depguard
+    # unnecessary
+    - godot
+    - nosprintfhostport
+    - wsl
+    - forbidigo # don't use kind of Println statements
+    - revive # competitor of golangci-lint
+    - gomnd # magic numbers
+    - ireturn
+    - exhaustruct
+    - tagliatelle
+    - varnamelen
+    - tenv
+    - testpackage
+    - paralleltest
+    - nonamedreturns
+    - stylecheck
+    - wrapcheck
+    - godox
+    - nlreturn
+    - dupl
+    # deprecated
+    - interfacer
+    - varcheck
+    - nosnakecase
+    - ifshort
+    - deadcode
+    - golint
+    - maligned
+    - scopelint
+    - exhaustivestruct
+    # it doesn't work well with go versions >= 1.18
+    - rowserrcheck
+    - sqlclosecheck
+    - structcheck
+    - wastedassign
+
+    # currently it doesn't work with go versions 1.20 because of SSA-based linters
+    # see also: https://github.com/golangci/golangci-lint/issues/3548
+    - bodyclose
+    - contextcheck
+    - nilerr
+    - noctx
+    - tparallel
+    - unused
+    - unparam
+linters-settings:
+  gofumpt:
+    lang-version: '1.20'
+    module-path: github.com/bon10/go-develop-template

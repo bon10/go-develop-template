@@ -1,0 +1,18 @@
+repos:
+  # configure shared hooks that you want to run on all repositories here
+  - repo: https://github.com/pre-commit/pre-commit-hooks.git
+    rev: v4.4.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+  - repo: local
+    hooks:
+      # backend用
+      - id: backend-lint
+        name: golangci-lint
+        description: Fast linters runner for Go.
+        entry: bash -c 'cd backend && exec golangci-lint run --fix --timeout 5m'
+        types: [go]
+        language: golang
+        files: '^backend/.*'
+        pass_filenames: false

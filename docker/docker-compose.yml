@@ -1,0 +1,41 @@
+services:
+  db:
+    build:
+      context: ..
+      dockerfile: docker/db/Dockerfile
+    image: go-develop-template-db
+    container_name: go-develop-template-db
+    environment:
+      POSTGRES_PASSWORD: password
+      TZ: "Asia/Tokyo"
+      PGDATA: /tmp/postgresql/data
+      POSTGRES_DB: go-develop-template-db
+    volumes:
+      - ./db/initdb:/docker-entrypoint-initdb.d
+      - ../tmp/db:/tmp/postgresql/data
+    ports:
+      - "5432:5432"
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/backend/Dockerfile.dev
+    container_name: go-develop-template-backend
+    volumes:
+      # Forwards the local Docker socket to the container.
+      - /var/run/docker.sock:/var/run/docker-host.sock
+      # Update this to wherever you want VS Code to mount the folder of your project
+      - ../backend:/workspaces:cached
+    depends_on:
+      - db
+    ports:
+      - "8081:8080"
+    # Overrides default command so things don't shut down after the process ends.
+    #entrypoint: /usr/local/share/docker-init.sh
+    working_dir: /workspaces/app
+    command: air
+    #command: /bin/sh -c "while :; do sleep 10; done"
+    tty: true
+    networks:
+      - back-tier
+networks:
+  back-tier: {}
