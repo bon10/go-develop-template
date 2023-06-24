@@ -25,4 +25,3 @@ tmp/
 !**/**/.env.example
 
 **/*firebase-adminsdk*.json
-**/caramel**.json
